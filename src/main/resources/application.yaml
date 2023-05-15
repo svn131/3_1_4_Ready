@@ -26,7 +26,7 @@ logging:
     org.hibernate: debug
 
 server:
-  port: 8084
+  port: 8079
 
   spring:
     resources:

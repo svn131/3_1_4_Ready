@@ -27,12 +27,16 @@ public class UserServiceImp implements UserService {
         this.userRepository = userRepository;
     }
 
+
     @Override
+    @Transactional(readOnly = true)
     public User getUserById(long id) {
         return userRepository.getById(id);
     }
 
+
     @Override
+    @Transactional(readOnly = true)
     public List<User> getListOfUsers() {
         return userRepository.findAll();
     }
@@ -45,6 +49,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
@@ -58,7 +63,6 @@ public class UserServiceImp implements UserService {
 
 
     @Override
-    @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return null;
     }
@@ -67,7 +71,7 @@ public class UserServiceImp implements UserService {
         return roles.stream().map(r -> new SimpleGrantedAuthority(r.getRoleName())).collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public UserDetails loadUserByEmail(String email) throws UsernameNotFoundException {
         User user = findByEmail(email);
         if (user == null) {
@@ -75,6 +79,10 @@ public class UserServiceImp implements UserService {
         }
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
                 mapRolesToAuthorities(user.getRoles()));
+    }
+
+    @Transactional
+    public void update(User user) {userRepository.save(user);
     }
 
 
