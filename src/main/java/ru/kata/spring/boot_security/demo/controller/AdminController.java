@@ -38,7 +38,7 @@ public class AdminController {
     }
 
     @GetMapping("/{id}/edit")
-    public String editUser(Model model, @PathVariable("id") Long id) {
+    public String submitUserToForm (Model model, @PathVariable("id") Long id) {
         model.addAttribute("roles", roleRepository.findAll());
         model.addAttribute("user", userService.getUserById(id));
         return "/edit";
